@@ -5,18 +5,18 @@
     <h2>{{ title }}</h2>
     <ng-content></ng-content>
     <div class="btn-wrapper">
-      <button class="btn-primary">{{ primaryBtnText }}</button>
+      <button class="btn-primary" (click)="submit()" [disabled]="disablePrimaryBtn">{{ primaryBtnText }}</button>
       <div class="divider">
         <div></div>
         <span>or</span>
         <div></div>
       </div>
-      <button class="btn-secondary">{{ secondaryBtnText }}</button>
+      <button class="btn-secondary" (click)="navigate()">{{ secondaryBtnText }}</button>
     </div>
   </section>
   <section class="main-section">
     <!-- Seção da imagem -->
-    <h1>You shoud, MoveIt!</h1>
+    <h1>Just Fox It!</h1>
     <img src="/assets/svg/main-illustration.svg" />
   </section>
 </main>
