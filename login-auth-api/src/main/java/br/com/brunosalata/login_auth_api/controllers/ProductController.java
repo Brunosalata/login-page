@@ -1,6 +1,6 @@
 package br.com.brunosalata.login_auth_api.controllers;
 
-import br.com.brunosalata.login_auth_api.domain.Product;
+import br.com.brunosalata.login_auth_api.domain.product.Product;
 import br.com.brunosalata.login_auth_api.dto.ProductRequestDTO;
 import br.com.brunosalata.login_auth_api.dto.ProductResponseDTO;
 import br.com.brunosalata.login_auth_api.repositories.ProductRepository;

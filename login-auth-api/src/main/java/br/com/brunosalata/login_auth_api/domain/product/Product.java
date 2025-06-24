@@ -1,4 +1,4 @@
-package br.com.brunosalata.login_auth_api.domain;
+package br.com.brunosalata.login_auth_api.domain.product;
 
 import br.com.brunosalata.login_auth_api.dto.ProductRequestDTO;
 import jakarta.persistence.*;
