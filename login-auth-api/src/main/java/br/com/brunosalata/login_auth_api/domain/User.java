@@ -1,4 +1,4 @@
-package br.com.brunosalata.login_auth_api.domain.user;
+package br.com.brunosalata.login_auth_api.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,5 +24,6 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private String role;
 
 }

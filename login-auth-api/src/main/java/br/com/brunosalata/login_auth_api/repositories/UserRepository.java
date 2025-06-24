@@ -1,6 +1,6 @@
 package br.com.brunosalata.login_auth_api.repositories;
 
-import br.com.brunosalata.login_auth_api.domain.user.User;
+import br.com.brunosalata.login_auth_api.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

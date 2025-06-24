@@ -1,6 +1,6 @@
 package br.com.brunosalata.login_auth_api.infra.security;
 
-import br.com.brunosalata.login_auth_api.domain.user.User;
+import br.com.brunosalata.login_auth_api.domain.User;
 import br.com.brunosalata.login_auth_api.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

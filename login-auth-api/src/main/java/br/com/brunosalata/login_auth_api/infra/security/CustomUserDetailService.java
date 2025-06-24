@@ -1,6 +1,6 @@
 package br.com.brunosalata.login_auth_api.infra.security;
 
-import br.com.brunosalata.login_auth_api.domain.user.User;
+import br.com.brunosalata.login_auth_api.domain.User;
 import br.com.brunosalata.login_auth_api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
