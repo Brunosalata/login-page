@@ -22,7 +22,7 @@ import java.util.Optional;
  * github.com/Brunosalata
  */
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final UserRepository repository;
