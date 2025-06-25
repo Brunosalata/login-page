@@ -5,6 +5,13 @@ import { PrimaryInputComponent } from '../../components/primary-input/primary-in
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { ToastrService } from 'ngx-toastr';
+import { jwtDecode } from 'jwt-decode';
+
+interface JwtPayload {
+  sub: string;
+  roles: string[];
+  exp: number;
+}
 
 interface LoginForm {
   email: FormControl,
@@ -41,9 +48,23 @@ export class LoginComponent {
 
   submit() {
     this.loginService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
-      next: () => this.toastService.success("Login feito com sucesso!"),
+      next: (res) => {
+        this.toastService.success("Login feito com sucesso!");
+
+        // Decode e redirecionamento
+        const token = res.token;
+        const decoded: JwtPayload = jwtDecode(token);
+
+        if (decoded.roles.includes('ROLE_ADMIN')) {
+          this.router.navigate(['/admin']);
+        } else if (decoded.roles.includes('ROLE_USER')) {
+          this.router.navigate(['/user']);
+        } else {
+          this.router.navigate(['/unauthorized']);
+        }
+      },
       error: () => this.toastService.error("Erro inesperado. Tente novamente mais tarde")
-    })
+    });
   }
 
   navigate() {
