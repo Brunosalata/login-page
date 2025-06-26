@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import {RouterLink, RouterLinkActive} from "@angular/router";
+import {NgForOf, NgIf} from "@angular/common";
 
 
 @Component({
@@ -7,7 +8,9 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
   standalone: true,
   imports: [
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    NgForOf,
+    NgIf
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
