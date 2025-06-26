@@ -1,5 +1,12 @@
 <div class="layout">
-  <app-sidebar [title]="'Admin'" [items]="sidebarItems"></app-sidebar>
+  <app-sidebar
+    [title]="'Admin'"
+    [items]="sidebarItems"
+    [name]="name"
+    [email]="email"
+    [role]="role"
+    [onLogout]="logout"
+  ></app-sidebar>
 
   <main class="main-content">
     <router-outlet></router-outlet>

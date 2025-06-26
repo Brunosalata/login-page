@@ -13,8 +13,31 @@ import {SidebarComponent} from "../../../components/sidebar/sidebar.component";
   styleUrl: './user-layout.component.scss'
 })
 export class UserLayoutComponent {
+  name = sessionStorage.getItem('username') || 'Usuário';
+  email = this.getEmailFromToken();
+  role = this.getRoleFromToken();
+
   sidebarItems = [
     { label: 'Perfil', icon: '👤', path: 'profile' },
     { label: 'Produtos', icon: '📊', path: 'products' }
   ];
+
+  logout() {
+    sessionStorage.clear();
+    window.location.href = '/login';
+  }
+
+  private getEmailFromToken(): string {
+    const token = sessionStorage.getItem('auth-token');
+    if (!token) return '';
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.sub || '';
+  }
+
+  private getRoleFromToken(): string {
+    const token = sessionStorage.getItem('auth-token');
+    if (!token) return '';
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.roles?.[0] || '';
+  }
 }

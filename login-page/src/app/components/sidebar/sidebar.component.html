@@ -1,4 +1,18 @@
 <aside class="sidebar">
+
+  <!-- Avatar e usuário -->
+  <div class="sidebar-user">
+    <div class="avatar">👤</div>
+    <div class="user-info">
+      <strong>{{ name }}</strong>
+      <p class="email">{{ email }}</p>
+      <p class="role-msg">{{ getRoleMessage() }}</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Navegação -->
   <h2 class="sidebar-title">{{ title }}</h2>
   <nav class="sidebar-nav">
     <a *ngFor="let item of items" [routerLink]="item.path" routerLinkActive="active">
@@ -6,4 +20,13 @@
       {{ item.label }}
     </a>
   </nav>
+
+  <hr class="divider">
+
+  <!-- Footer -->
+  <div class="sidebar-footer">
+    <!-- Logout -->
+    <button class="logout-btn" (click)="onLogout()">Sair</button>
+  </div>
+
 </aside>
