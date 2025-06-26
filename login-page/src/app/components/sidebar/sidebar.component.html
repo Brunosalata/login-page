@@ -1,0 +1,12 @@
+<aside class="w-64 bg-gray-800 text-white p-4 min-h-screen">
+  <h2 class="text-xl font-bold mb-6">{{ title }}</h2>
+  <nav class="flex flex-col gap-3">
+    <a *ngFor="let item of items"
+       [routerLink]="item.path"
+       routerLinkActive="font-bold text-yellow-300"
+       class="hover:bg-gray-700 p-2 rounded transition">
+      <span *ngIf="item.icon" class="mr-2">{{ item.icon }}</span>
+      {{ item.label }}
+    </a>
+  </nav>
+</aside>
