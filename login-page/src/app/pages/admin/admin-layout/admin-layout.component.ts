@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, RouterOutlet} from '@angular/router';
 import {SidebarComponent} from "../../../components/sidebar/sidebar.component";
+import {UserInfo} from "../../../types/user-info.type";
 
 @Component({
   selector: 'app-admin-layout',
@@ -10,16 +11,31 @@ import {SidebarComponent} from "../../../components/sidebar/sidebar.component";
   styleUrl: './admin-layout.component.scss'
 })
 
-export class AdminLayoutComponent {
-  name = sessionStorage.getItem('username') || 'Usuário';
-  email = this.getEmailFromToken();
-  role = this.getRoleFromToken();
-
+export class AdminLayoutComponent implements OnInit{
   sidebarItems = [
     { label: 'Dashboard', icon: '🏠', path: 'dashboard' },
     { label: 'Produtos', icon: '📦', path: 'products' },
     { label: 'Usuários', icon: '👤', path: 'users' }
   ];
+
+  userInfo: UserInfo = { name: '', email: '', role: '' };
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    const userData = this.route.snapshot.data['user'] as UserInfo;
+    this.userInfo = { name: userData.name, email: userData.email, role: this.getRoleMessage(userData.role) };
+  }
+
+  getRoleMessage(role: string): string {
+    if (role.includes('ADMIN')) {
+      return 'Acesso total ao sistema';
+    }
+    if (role.includes('USER')) {
+      return 'Acesso limitado à sua área';
+    }
+    return 'Bem-vindo(a)';
+  }
 
   logout() {
     sessionStorage.clear();

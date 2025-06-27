@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import {RouterOutlet} from "@angular/router";
+import {ActivatedRoute, RouterOutlet} from "@angular/router";
 import {SidebarComponent} from "../../../components/sidebar/sidebar.component";
+import {UserInfo} from "../../../types/user-info.type";
 
 @Component({
   selector: 'app-user-layout',
@@ -13,9 +14,24 @@ import {SidebarComponent} from "../../../components/sidebar/sidebar.component";
   styleUrl: './user-layout.component.scss'
 })
 export class UserLayoutComponent {
-  name = sessionStorage.getItem('username') || 'Usuário';
-  email = this.getEmailFromToken();
-  role = this.getRoleFromToken();
+  ngOnInit() {
+    const userData = this.route.snapshot.data['user'] as UserInfo;
+    this.userInfo = { name: userData.name, email: userData.email, role: this.getRoleMessage(userData.role) };
+  }
+
+  userInfo: UserInfo = { name: '', email: '', role: '' };
+
+  constructor(private route: ActivatedRoute) {}
+
+  getRoleMessage(role: string): string {
+    if (role.includes('ADMIN')) {
+      return 'Acesso total ao sistema';
+    }
+    if (role.includes('USER')) {
+      return 'Acesso limitado à sua área';
+    }
+    return 'Bem-vindo(a)';
+  }
 
   sidebarItems = [
     { label: 'Perfil', icon: '👤', path: 'profile' },

@@ -10,6 +10,7 @@ import {AdminDashboardComponent} from "./pages/admin/admin-dashboard/admin-dashb
 import {AdminProductsComponent} from "./pages/admin/admin-products/admin-products.component";
 import {AdminUsersComponent} from "./pages/admin/admin-users/admin-users.component";
 import {UserLayoutComponent} from "./pages/user/user-layout/user-layout.component";
+import {UserInfoResolver} from "./services/user-info.resolver";
 
 export const routes: Routes = [
   {
@@ -25,6 +26,9 @@ export const routes: Routes = [
     component: UserLayoutComponent,
     canActivate: [AuthGuardService],
     data: {roles: ['ROLE_USER', 'ROLE_ADMIN']},
+    resolve: {
+      user: UserInfoResolver
+    },
     children: [
       {path: 'profile', component: UserProfileComponent},
       {path: 'products', component: UserProductsComponent},
@@ -36,6 +40,9 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [AuthGuardService],
     data: {roles: ['ROLE_ADMIN']},
+    resolve: {
+      user: UserInfoResolver
+    },
     children: [
       {path: 'dashboard', component: AdminDashboardComponent},
       {path: 'products', component: AdminProductsComponent},

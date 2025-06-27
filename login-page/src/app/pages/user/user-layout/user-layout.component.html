@@ -2,9 +2,9 @@
   <app-sidebar
     [title]="'Usuário'"
     [items]="sidebarItems"
-    [name]="name"
-    [email]="email"
-    [role]="role"
+    [name]="userInfo.name"
+    [email]="userInfo.email"
+    [role]="userInfo.role"
     [onLogout]="logout"
   ></app-sidebar>
 
