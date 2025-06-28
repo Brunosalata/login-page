@@ -4,11 +4,13 @@ import br.com.brunosalata.login_auth_api.domain.audit.AuditAction;
 import br.com.brunosalata.login_auth_api.domain.audit.AuditLog;
 import br.com.brunosalata.login_auth_api.repositories.AuditLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Bruno Salata Lima
  * github.com/Brunosalata
  */
+@Service
 public class AuditLogService {
     @Autowired
     private AuditLogRepository auditLogRepository;

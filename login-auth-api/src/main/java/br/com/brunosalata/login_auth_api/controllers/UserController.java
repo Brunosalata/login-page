@@ -11,13 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Bruno Salata Lima
@@ -46,7 +44,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping
+    @GetMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserInfoResponseDTO>> getAllUsers() {
         List<User> users = userRepository.findAll();
@@ -60,13 +58,19 @@ public class UserController {
 
     @PutMapping("/update")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> updateUser(@RequestBody UpdateUserRequestDTO dto, Authentication authentication) {
-        String email = authentication.getName();
+    public ResponseEntity<?> updateUser(
+            @RequestBody UpdateUserRequestDTO dto,
+            Authentication authentication
+    ) {
+        String email = authentication.getName(); // Garantia de que é o próprio usuário
 
         User user = userRepository.findInfoByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
-        user.setName(dto.name());
+        // Atualiza apenas se for diferente ou informado
+        if (dto.name() != null && !dto.name().isBlank()) {
+            user.setName(dto.name());
+        }
 
         if (dto.password() != null && !dto.password().isBlank()) {
             user.setPassword(passwordEncoder.encode(dto.password()));
@@ -74,26 +78,37 @@ public class UserController {
 
         userRepository.save(user);
 
+        // Log de auditoria
         auditLogService.log(
-                AuditAction.UPDATE_USER,
-                authentication.getName(),
-                "User",
-                user.getEmail(),
-                "Usuário alterou seus dados"
+                AuditAction.UPDATE_USER,            // ou AuditAction.UPDATE_USER se usar enum
+                email,                              // quem fez
+                "User",                             // alvo
+                user.getEmail(),                    // id do alvo (ele mesmo)
+                "Usuário atualizou seus dados"
         );
 
         return ResponseEntity.ok("Usuário atualizado com sucesso.");
     }
 
-    @PutMapping("/admin/update/{email}")
+    @PutMapping("/update/admin/{email}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateUserAsAdmin(
             @PathVariable String email,
-            @RequestBody UpdateUserRequestDTO dto
+            @RequestBody UpdateUserRequestDTO dto,
+            Authentication authentication
     ) {
         User user = userRepository.findInfoByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
+        String actorEmail = authentication.getName();
+
+        // Impede atualizar outro ADMIN que não seja ele mesmo
+        if (user.getRole().equals("ROLE_ADMIN") && !user.getEmail().equals(actorEmail)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Você não pode alterar dados de outro administrador.");
+        }
+
+        // Atualiza nome e senha se fornecidos
         if (dto.name() != null && !dto.name().isBlank()) {
             user.setName(dto.name());
         }
@@ -106,10 +121,10 @@ public class UserController {
 
         auditLogService.log(
                 AuditAction.UPDATE_USER,
-                user.getName(),
+                actorEmail, // quem fez a alteração
                 "User",
-                user.getEmail(),
-                "Admin alterou dados do usuário"
+                user.getEmail(), // alvo da alteração
+                "Admin alterou os dados do usuário"
         );
 
         return ResponseEntity.ok("Usuário atualizado com sucesso.");
@@ -121,7 +136,7 @@ public class UserController {
         return deleteUserByEmail(authentication.getName(), authentication, false);
     }
 
-    @DeleteMapping("/admin/delete/{email}")
+    @DeleteMapping("/delete/admin/{email}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteAnyUser(@PathVariable String email, Authentication authentication) {
         return deleteUserByEmail(email, authentication, true);
