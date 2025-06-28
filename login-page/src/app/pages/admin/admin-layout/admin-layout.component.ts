@@ -32,7 +32,7 @@ export class AdminLayoutComponent implements OnInit{
       return 'Acesso total ao sistema';
     }
     if (role.includes('USER')) {
-      return 'Acesso limitado à sua área';
+      return 'Acesso limitado à área do usuário';
     }
     return 'Bem-vindo(a)';
   }

@@ -56,11 +56,11 @@ export class LoginComponent {
         const decoded: JwtPayload = jwtDecode(token);
 
         if (decoded.roles.includes('ROLE_ADMIN')) {
-          this.router.navigate(['/admin']);
+          this.router.navigate(['admin']);
         } else if (decoded.roles.includes('ROLE_USER')) {
-          this.router.navigate(['/user']);
+          this.router.navigate(['user']);
         } else {
-          this.router.navigate(['/unauthorized']);
+          this.router.navigate(['unauthorized']);
         }
       },
       error: () => this.toastService.error("Erro inesperado. Tente novamente mais tarde")
