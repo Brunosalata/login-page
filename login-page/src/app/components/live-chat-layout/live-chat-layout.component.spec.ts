@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserComponent } from './user.component';
+import { LiveChatLayoutComponent } from './live-chat-layout.component';
 
-describe('UserComponent', () => {
-  let component: UserComponent;
-  let fixture: ComponentFixture<UserComponent>;
+describe('LiveChatLayoutComponent', () => {
+  let component: LiveChatLayoutComponent;
+  let fixture: ComponentFixture<LiveChatLayoutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserComponent]
+      imports: [LiveChatLayoutComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(UserComponent);
+    fixture = TestBed.createComponent(LiveChatLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

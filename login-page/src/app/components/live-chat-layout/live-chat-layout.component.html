@@ -1,0 +1,31 @@
+<div class="chat-container">
+  <form (submit)="send(); $event.preventDefault()">
+    <label>Username:</label>
+    <input [(ngModel)]="username" name="username" required />
+
+    <label>Message:</label>
+    <div class="message-input-group">
+      <input [(ngModel)]="message" name="message" (click)="send()" (keyup.enter)="send()" />
+      <button type="submit">➤</button>
+    </div>
+  </form>
+
+  <div class="connection-buttons">
+    <button (click)="connect()">Connect</button>
+    <button (click)="disconnect()">Disconnect</button>
+  </div>
+
+  <div class="chat-messages">
+    <table>
+      <thead>
+      <tr><th>Live Chat</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let msg of messages">
+        <td>{{ msg }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

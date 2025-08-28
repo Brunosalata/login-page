@@ -32,6 +32,7 @@ export const routes: Routes = [
     children: [
       {path: 'profile', component: UserProfileComponent},
       {path: 'products', component: UserProductsComponent},
+      { path: 'live-chat', loadComponent: () => import('./pages/user/user-live-chat/user-live-chat.component').then(m => m.UserLiveChatComponent) },
       {path: '', redirectTo: 'profile', pathMatch: 'full'}
     ]
   },
